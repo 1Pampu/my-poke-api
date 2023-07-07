@@ -18,7 +18,7 @@ async def pokedex():
     return pokemonList
 
 # Returns pokemon that contains that number in the pokedex
-@app.get("/{numPokedex}")
+@app.get("/pokemon/{numPokedex}")
 async def searchPokemon(numPokedex: int):
     if(numPokedex > len(pokemonList)): return {"message":"That pokemon doesn't exist in the 1st gen!"}
     return pokemonList[numPokedex - 1]
