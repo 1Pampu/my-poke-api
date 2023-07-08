@@ -1,5 +1,5 @@
 ## Description
-This project is an API that will be used in a future application. It was implemented using Python, pandas, NumPy, and FastAPI.
+This is my first API, built using FastAPI and incorporating data analysis with Pandas, NumPy, and other tools to extract useful information.
 
 ## Author
 **Martín Piampiani**
