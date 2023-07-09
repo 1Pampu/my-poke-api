@@ -1,5 +1,5 @@
 ## Description
-This is my first API, built using FastAPI and incorporating data analysis with Pandas, NumPy, and other tools to extract useful information.** This API is only using pokemons of the first generation!! **
+This is my first API, built using FastAPI and incorporating data analysis with Pandas, NumPy, and other tools to extract useful information. **This API is only using pokemons of the first generation!!**
 
 ## Usage
 | Request                  | Type | Description                                        |
