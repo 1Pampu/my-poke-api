@@ -16,8 +16,8 @@ This is my first API, built using FastAPI and incorporating data analysis with P
 |`type1`       |`str`  | Returns the pokemons that are of the indicated type  |
 |`tpye2`       |`str`  | Returns the pokemons that are of the indicated type  |
 |`is_legendary`|`int`  | Returns legendary(1) or non-legendary(0) pokemons    |
-|`height_m`    |`float`| Returns pokemon that matches the height, in meters   |
-|`weight_kg`   |`float`| Returns pokemon that matches the weight, in Kg       |
+|`height_m`    |`float`| Returns pokemons that matches the height, in meters   |
+|`weight_kg`   |`float`| Returns pokemons that matches the weight, in Kg       |
 
 ## Documentation
 You can find the complete documentation in detail at `/docs`
