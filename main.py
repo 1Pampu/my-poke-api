@@ -1,7 +1,7 @@
 # Import Libraries
 import json
 import random
-from fastapi import FastAPI
+from fastapi import FastAPI,HTTPException
 
 # Import our pokemon database into a list
 dbRoute = "DataBase\pokemon-used.json"
@@ -20,7 +20,7 @@ async def pokedex():
 # Returns pokemon that contains that number in the pokedex
 @app.get("/pokemon/{numPokedex}")
 async def searchByIndexPokemon(numPokedex: int):
-    if(numPokedex > len(pokemonList)): return {"message":"That pokemon doesn't exist in the 1st gen!"}
+    if(numPokedex > len(pokemonList)): raise HTTPException(status_code=404, detail="That pokemon doesn't exist in the 1st gen!")
     return pokemonList[numPokedex - 1]
 
 # Returns list of pokemon that fit the specs
@@ -41,7 +41,7 @@ async def searchByOthers(name: str = None, type1: str = None, type2: str = None,
         if not qualify: qualify.append(False)
         if all(qualify): pokemonToReturn.append(pokemon)
     if not pokemonToReturn:
-        return {"message":"No pokemon qualifies with those specifications"}
+        raise HTTPException(status_code=404,detail="No pokemon qualifies with those specifications")
     return pokemonToReturn
 
 # Return random pokemon when requested

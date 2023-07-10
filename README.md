@@ -1,7 +1,9 @@
 ## Description
 This is my first API, built using FastAPI and incorporating data analysis with Pandas, NumPy, and other tools to extract useful information. **This API is only using pokemons of the first generation!!**
 
-## Usage
+## Documentation
+You can find the complete documentation in detail at `/docs`
+
 | Request                  | Type | Description                                        |
 |--------------------------|------|----------------------------------------------------|
 | `/`                      | GET  | Returns list of all pokemon                        |
@@ -9,18 +11,15 @@ This is my first API, built using FastAPI and incorporating data analysis with P
 | `/pokemon/{id}`          | GET  | Returns the pokemon that matches the pokedex number|
 | `/pokemon/?{parameters}=`| GET  | Returns list of pokemon that matches the parameters|
 
-#### Parameters for `/pokemon/` 
+#### Parameters for `/pokemon/`
 | Parameters   | Type  | Description                                          |
-|--------------|-------|------------------------------------------------------| 
+|--------------|-------|------------------------------------------------------|
 |`name`        |`str`  | Returns pokemons that contain the string in the name |
 |`type1`       |`str`  | Returns the pokemons that are of the indicated type  |
 |`tpye2`       |`str`  | Returns the pokemons that are of the indicated type  |
 |`is_legendary`|`int`  | Returns legendary(1) or non-legendary(0) pokemons    |
 |`height_m`    |`float`| Returns pokemons that matches the height, in meters   |
 |`weight_kg`   |`float`| Returns pokemons that matches the weight, in Kg       |
-
-## Documentation
-You can find the complete documentation in detail at `/docs`
 
 ## Author
 **Martín Piampiani**
