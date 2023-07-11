@@ -4,7 +4,7 @@ import random
 from fastapi import FastAPI,HTTPException
 
 # Import our pokemon database into a list
-dbRoute = "DataBase\pokemon-used.json"
+dbRoute = "/opt/render/project/src/DataBase/pokemon-used.json"      # Change the path of where you contain the file
 with open(dbRoute,'r') as file:
     contentJson = json.load(file)
 pokemonList = list(contentJson)
