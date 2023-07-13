@@ -2,7 +2,7 @@
 This is my first API, built using FastAPI and incorporating data analysis with Pandas, NumPy, and other tools to extract useful information. **This API is only using pokemons of the first generation!!**
 
 ## Documentation
-You can find the complete documentation in detail at `/docs`
+You can find the complete documentation in detail at `/docs` or `/redoc`
 
 | Request                  | Type | Description                                        |
 |--------------------------|------|----------------------------------------------------|
