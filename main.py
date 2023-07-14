@@ -2,8 +2,10 @@
 import json
 import random
 from fastapi import FastAPI,HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 
 # Import our pokemon database into a list
+#dbRoute = "DataBase/pokemon-used.json"
 dbRoute = "/opt/render/project/src/DataBase/pokemon-used.json"      # Change the path of where you contain the file
 with open(dbRoute,'r') as file:
     contentJson = json.load(file)
@@ -11,6 +13,16 @@ pokemonList = list(contentJson)
 
 # Create a new instance of the FastAPI application
 app = FastAPI()
+
+# Allow all origins to use the API
+origins= ["*"]
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # Returns all the pokemon list
 @app.get("/")
