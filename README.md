@@ -2,7 +2,7 @@
 This is my first API, built using FastAPI and incorporating data analysis with Pandas, NumPy, and other tools to extract useful information. **This API is only using pokemons of the first generation!!**
 
 ## Documentation
-You can find the complete documentation in detail at `/docs`
+You can find the complete documentation in detail at `/docs` or `/redoc`
 
 | Request                  | Type | Description                                        |
 |--------------------------|------|----------------------------------------------------|
@@ -28,7 +28,6 @@ You can find the complete documentation in detail at `/docs`
 * [Portfolio web](https://1pampu.github.io/my-portfolio/)
 
 ## See live Example
-The hosting used is render.com (free trial), if the server is off it turns on only when it receives a request, but **it takes a few seconds**, so be a little patient, after it starts it works normally
 - [Public API Link](https://my-poke-api.onrender.com/)
 
 ## Hiring
