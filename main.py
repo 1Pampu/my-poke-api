@@ -4,8 +4,8 @@ import random
 from fastapi import FastAPI,HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 
-# Import our pokemon database into a list
-#dbRoute = "DataBase/pokemon-used.json"
+#  Import our pokemon database into a list
+# dbRoute = "DataBase/pokemon-used.json"
 dbRoute = "/opt/render/project/src/DataBase/pokemon-used.json"      # Change the path of where you contain the file
 with open(dbRoute,'r') as file:
     contentJson = json.load(file)
@@ -41,12 +41,12 @@ async def searchByOthers(name: str = None, type1: str = None, type2: str = None,
     pokemonToReturn = []
     for pokemon in pokemonList:
         qualify = []
-        if name != None: qualify.append(name.lower() in pokemon["name"].lower())
-        if type1 != None and type2 != None:
+        if name != None and name != "": qualify.append(name.lower() in pokemon["name"].lower())
+        if (type1 != None and type1 != "") and (type2 != None and type2 != ""):
             qualify.append(type1.lower() == pokemon["type1"] or type1.lower() == pokemon["type2"])
             qualify.append(type2.lower() == pokemon["type1"] or type2.lower() == pokemon["type2"])
-        elif type1 != None: qualify.append(type1.lower() == pokemon["type1"] or type1.lower() == pokemon["type2"])
-        elif type2 != None: qualify.append(type2.lower() == pokemon["type1"] or type2.lower() == pokemon["type2"])
+        elif type1 != None and type1 != "": qualify.append(type1.lower() == pokemon["type1"] or type1.lower() == pokemon["type2"])
+        elif type2 != None and type2 != "": qualify.append(type2.lower() == pokemon["type1"] or type2.lower() == pokemon["type2"])
         if is_legendary != None: qualify.append(is_legendary == pokemon["is_legendary"])
         if height_m != None: qualify.append(height_m == pokemon["height_m"])
         if weight_kg != None: qualify.append(weight_kg == pokemon["weight_kg"])
