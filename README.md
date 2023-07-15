@@ -2,14 +2,17 @@
 This is my first API, built using FastAPI and incorporating data analysis with Pandas, NumPy, and other tools to extract useful information. **This API is only using pokemons of the first generation!!**
 
 ## Documentation
-You can find the complete documentation in detail at `/docs` or `/redoc`
+The api changes the "pokemon of the day" every 15 minutes.
+You can find the complete documentation in detail at `/docs` or `/redoc`.
 
-| Request                  | Type | Description                                        |
-|--------------------------|------|----------------------------------------------------|
-| `/`                      | GET  | Returns list of all pokemon                        |
-| `/random`                | GET  | Returns a random pokemon                           |
-| `/pokemon/{id}`          | GET  | Returns the pokemon that matches the pokedex number|
-| `/pokemon/?{parameters}=`| GET  | Returns list of pokemon that matches the parameters|
+| Request                  | Type | Description                                              |
+|--------------------------|------|----------------------------------------------------------|
+| `/`                      | GET  | Returns list of all pokemon                              |
+| `/random`                | GET  | Returns a random pokemon                                 |
+| `/pokemon/{id}`          | GET  | Returns the pokemon that matches the pokedex number      |
+| `/pokemon/?{parameters}=`| GET  | Returns list of pokemon that matches the parameters      |
+| `/answer`{"name": "str"} | POST | Returns if the answer is correct or clues to discover it |
+
 
 #### Parameters for `/pokemon/`
 | Parameters   | Type  | Description                                          |
