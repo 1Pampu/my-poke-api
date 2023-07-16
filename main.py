@@ -26,10 +26,6 @@ with open(dbRoute,'r') as file:
     contentJson = json.load(file)
 pokemonList = list(contentJson)
 
-# Create a pokemon class
-class Pokemon(BaseModel):
-    name: str
-
 # Variable that contains the pokemon of the "day"
 pkmonday = None
 
@@ -82,12 +78,48 @@ async def searchByOthers(name: str = None, type1: str = None, type2: str = None,
 async def pokeRandom():
     return random.choice(pokemonList)
 
+# Create the element that the answer will recieve
+class PokedxNumber(BaseModel):
+    pokedex_number: int
+
 # Validate the recived pokemon
 @app.post("/answer")
-async def validateAnswer(guess: Pokemon):
-    if guess.name.lower() == pkmonDay["name"].lower():
+async def validateAnswer(guessNumber: PokedxNumber):
+    # If correct answer
+    if guessNumber.pokedex_number == pkmonDay["pokedex_number"]:
         return {"message": "correct answer!"}
-    elif any(pokemon["name"].lower() == guess.name.lower() for pokemon in pokemonList):
-        return {"message": "incorrect answer"}
+
+    # If incorrect and it's a valid pokemon
+    elif any(pokemon["pokedex_number"] == guessNumber.pokedex_number for pokemon in pokemonList):
+        # Get the pokemon dictionary
+        guessPokemon = None
+        for pokemon in pokemonList:
+            if pokemon["pokedex_number"] == guessNumber.pokedex_number:
+                guessPokemon = pokemon
+                break
+
+        if guessPokemon["pokedex_number"] > pkmonDay["pokedex_number"]: pdex = "lower"
+        else: pdex = "higher"
+
+        if guessPokemon["type1"].lower() == pkmonDay["type1"].lower(): primaryType = True
+        else: primaryType = False
+
+        if guessPokemon["type2"].lower() == pkmonDay["type2"].lower(): secondaryType = True
+        else: secondaryType = False
+
+        if guessPokemon["is_legendary"] == pkmonDay["is_legendary"]: legendary = True
+        else: legendary = False
+
+        if guessPokemon["height_m"] == pkmonDay["height_m"]: height = True
+        elif guessPokemon["height_m"] > pkmonDay["height_m"]: height = "lower"
+        else: height = "higher"
+
+        if guessPokemon["weight_kg"] == pkmonDay["weight_kg"]: weight = True
+        elif guessPokemon["weight_kg"] > pkmonDay["weight_kg"]: weight = "lower"
+        else: weight = "higher"
+
+        return {"pokedex_number": pdex,"type1":primaryType,"type2":secondaryType,"is_legendary": legendary,"height_m": height,"weight_kg":weight}
+
+    # If not valid pokemon
     else:
-        return {"message": "That pokemon doesn't exist"}
+        raise HTTPException(status_code=404,detail="That's not a valid Pokemon!")

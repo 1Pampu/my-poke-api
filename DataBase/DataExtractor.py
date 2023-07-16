@@ -43,6 +43,15 @@ for index, row in newDataFrame.iterrows():
         print("Not found!")
         print(pokemonName)
 
+# Put special characters again
+newDataFrame["name"] = newDataFrame["name"].replace("Nidoran-f","Nidoran\u2640")
+newDataFrame["name"] = newDataFrame["name"].replace("Nidoran-m","Nidoran\u2642")
+newDataFrame["name"] = newDataFrame["name"].replace("Mr-Mime","Mr. Mime")
+newDataFrame["name"] = newDataFrame["name"].replace("Farfetchd","Farfetch'd")
+
+# Change nulls to ""
+newDataFrame["type2"].fillna('',inplace=True)
+
 # Finally export data to Json file
 newFileRoute = "DataBase/pokemon-used.json"
 newDataFrame.to_json(newFileRoute, orient='records')
