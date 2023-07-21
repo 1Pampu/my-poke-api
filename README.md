@@ -12,6 +12,7 @@ You can find the complete documentation in detail at `/docs` or `/redoc`.
 | `/pokemon/{id}`           | GET  | Returns the pokemon that matches the pokedex number      |
 | `/pokemon/?{parameters}=` | GET  | Returns list of pokemon that matches the parameters      |
 | `/answer` {pokedex_number}| POST | Returns if the answer is correct or clues to discover it |
+| `/time`                   | GET  | Returns the time when the pokemon of the day changes     |
 
 
 #### Parameters for `/pokemon/`

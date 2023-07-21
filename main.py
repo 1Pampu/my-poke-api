@@ -5,6 +5,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 import random
 import asyncio
+from datetime import datetime, timedelta
 
 # Create a new instance of the FastAPI application
 app = FastAPI()
@@ -26,20 +27,27 @@ with open(dbRoute,'r') as file:
     contentJson = json.load(file)
 pokemonList = list(contentJson)
 
-# Variable that contains the pokemon of the "day"
+# Variable that contains the pokemon of the "day" and the time to the next change
 pkmonday = None
+nextChange = None
 
 # Function that changes the pokemon of the day every X time
 async def periodicChange():
     global pkmonDay   # Specify that we are reffering to the global variable
     while True:
         pkmonDay = random.choice(pokemonList)
+        nextChange = datetime.now() + timedelta(minutes=15)
         await asyncio.sleep(900)   # 900 = 15min
 
 # Start async function at startup
 @app.on_event("startup")
 async def startTasks():
     asyncio.create_task(periodicChange())
+
+# Function to get the time for the next Pokémon change
+@app.get("/time")
+async def timeToNextPokemon():
+    return {"nextPokemon": nextChange}
 
 # Returns all the pokemon list
 @app.get("/")
@@ -85,12 +93,8 @@ class PokedxNumber(BaseModel):
 # Validate the recived pokemon
 @app.post("/answer")
 async def validateAnswer(guessNumber: PokedxNumber):
-    # If correct answer
-    if guessNumber.pokedex_number == pkmonDay["pokedex_number"]:
-        return {"message": "correct answer!"}
-
-    # If incorrect and it's a valid pokemon
-    elif any(pokemon["pokedex_number"] == guessNumber.pokedex_number for pokemon in pokemonList):
+    # Response of the server, if all true, the answer is right
+    if any(pokemon["pokedex_number"] == guessNumber.pokedex_number for pokemon in pokemonList):
         # Get the pokemon dictionary
         guessPokemon = None
         for pokemon in pokemonList:
@@ -98,7 +102,8 @@ async def validateAnswer(guessNumber: PokedxNumber):
                 guessPokemon = pokemon
                 break
 
-        if guessPokemon["pokedex_number"] > pkmonDay["pokedex_number"]: pdex = "lower"
+        if guessPokemon["pokedex_number"] == pkmonDay["pokedex_number"]: pdex = True
+        elif guessPokemon["pokedex_number"] > pkmonDay["pokedex_number"]: pdex = "lower"
         else: pdex = "higher"
 
         if guessPokemon["type1"].lower() == pkmonDay["type1"].lower(): primaryType = True
