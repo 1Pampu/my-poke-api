@@ -33,7 +33,7 @@ nextChange = None
 
 # Function that changes the pokemon of the day every X time
 async def periodicChange():
-    global pkmonDay   # Specify that we are reffering to the global variable
+    global pkmonDay,nextChange   # Specify that we are reffering to the global variable
     while True:
         pkmonDay = random.choice(pokemonList)
         nextChange = datetime.now() + timedelta(minutes=15)
