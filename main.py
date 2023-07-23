@@ -5,7 +5,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 import random
 import asyncio
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta,timezone
 
 # Create a new instance of the FastAPI application
 app = FastAPI()
@@ -47,7 +47,8 @@ async def startTasks():
 # Function to get the time for the next Pokémon change
 @app.get("/time")
 async def timeToNextPokemon():
-    return {"nextPokemon": nextChange}
+    next_change_utc = nextChange.astimezone(timezone.utc).replace(microsecond=0).isoformat() + "Z"
+    return {"nextPokemon": next_change_utc}
 
 # Returns all the pokemon list
 @app.get("/")
