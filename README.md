@@ -13,7 +13,7 @@ You can find the complete documentation in detail at `/docs` or `/redoc`.
 | `/pokemon/?{parameters}=` | GET  | Returns list of pokemon that matches the parameters      |
 | `/answer` {pokedex_number}| POST | Returns if the answer is correct or clues to discover it |
 | `/time`                   | GET  | Returns the time when the pokemon of the day changes     |
-
+| `/lastGuess`              | GET  | Returns the name of the previously chosen Pokemon        |
 
 #### Parameters for `/pokemon/`
 | Parameters   | Type  | Description                                          |

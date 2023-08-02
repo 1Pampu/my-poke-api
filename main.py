@@ -28,21 +28,31 @@ with open(dbRoute,'r') as file:
 pokemonList = list(contentJson)
 
 # Variable that contains the pokemon of the "day" and the time to the next change
+lastPkmon = None
 pkmonday = None
 nextChange = None
 
 # Function that changes the pokemon of the day every X time
 async def periodicChange():
-    global pkmonDay,nextChange   # Specify that we are reffering to the global variable
+    global pkmonday,nextChange,lastPkmon   # Specify that we are reffering to the global variable
     while True:
-        pkmonDay = random.choice(pokemonList)
+        if pkmonday == None:
+            lastPkmon = random.choice(pokemonList)
+            lastPkmon = lastPkmon["name"]
+        else: lastPkmon = pkmonday["name"]
+        pkmonday = random.choice(pokemonList)
         nextChange = datetime.now() + timedelta(minutes=15)
-        await asyncio.sleep(900)   # 900 = 15min
+        await asyncio.sleep(30)   # 900 = 15min
 
 # Start async function at startup
 @app.on_event("startup")
 async def startTasks():
     asyncio.create_task(periodicChange())
+
+# Returns the last pokemon chosen
+@app.get("/lastGuess")
+async def lastGuess():
+    return {"pokemon":lastPkmon}
 
 # Function to get the time for the next Pokémon change
 @app.get("/time")
@@ -103,25 +113,25 @@ async def validateAnswer(guessNumber: PokedxNumber):
                 guessPokemon = pokemon
                 break
 
-        if guessPokemon["pokedex_number"] == pkmonDay["pokedex_number"]: pdex = True
-        elif guessPokemon["pokedex_number"] > pkmonDay["pokedex_number"]: pdex = "lower"
+        if guessPokemon["pokedex_number"] == pkmonday["pokedex_number"]: pdex = True
+        elif guessPokemon["pokedex_number"] > pkmonday["pokedex_number"]: pdex = "lower"
         else: pdex = "higher"
 
-        if guessPokemon["type1"].lower() == pkmonDay["type1"].lower(): primaryType = True
+        if guessPokemon["type1"].lower() == pkmonday["type1"].lower(): primaryType = True
         else: primaryType = False
 
-        if guessPokemon["type2"].lower() == pkmonDay["type2"].lower(): secondaryType = True
+        if guessPokemon["type2"].lower() == pkmonday["type2"].lower(): secondaryType = True
         else: secondaryType = False
 
-        if guessPokemon["is_legendary"] == pkmonDay["is_legendary"]: legendary = True
+        if guessPokemon["is_legendary"] == pkmonday["is_legendary"]: legendary = True
         else: legendary = False
 
-        if guessPokemon["height_m"] == pkmonDay["height_m"]: height = True
-        elif guessPokemon["height_m"] > pkmonDay["height_m"]: height = "lower"
+        if guessPokemon["height_m"] == pkmonday["height_m"]: height = True
+        elif guessPokemon["height_m"] > pkmonday["height_m"]: height = "lower"
         else: height = "higher"
 
-        if guessPokemon["weight_kg"] == pkmonDay["weight_kg"]: weight = True
-        elif guessPokemon["weight_kg"] > pkmonDay["weight_kg"]: weight = "lower"
+        if guessPokemon["weight_kg"] == pkmonday["weight_kg"]: weight = True
+        elif guessPokemon["weight_kg"] > pkmonday["weight_kg"]: weight = "lower"
         else: weight = "higher"
 
         return {"pokedex_number": pdex,"type1":primaryType,"type2":secondaryType,"is_legendary": legendary,"height_m": height,"weight_kg":weight}
