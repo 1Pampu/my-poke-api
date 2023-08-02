@@ -42,7 +42,7 @@ async def periodicChange():
         else: lastPkmon = pkmonday["name"]
         pkmonday = random.choice(pokemonList)
         nextChange = datetime.now() + timedelta(minutes=15)
-        await asyncio.sleep(30)   # 900 = 15min
+        await asyncio.sleep(900)   # 900 = 15min
 
 # Start async function at startup
 @app.on_event("startup")
