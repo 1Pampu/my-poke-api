@@ -2,7 +2,7 @@
 This is my first API, built using FastAPI and incorporating data analysis with Pandas, NumPy, and other tools to extract useful information. **This API is only using pokemons of the first generation!!**
 
 ## Documentation
-The api changes the "pokemon of the day" every 15 minutes.
+The api changes the "pokemon of the day" every 30 minutes.
 You can find the complete documentation in detail at `/docs` or `/redoc`.
 
 | Request                   | Type | Description                                              |
