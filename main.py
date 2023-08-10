@@ -43,7 +43,7 @@ def changePokemonDay():
 
 # Create the automatization of the change of pokemon
 scheduler = BackgroundScheduler(timezone=pytz.utc)
-trigger = CronTrigger(minute="0,30")  # Execute when minutes are 0 and 30
+trigger = CronTrigger(minute="0,15,30,45")  # Execute when minutes are 0,15,30,45
 scheduler.add_job(changePokemonDay, trigger=trigger)
 scheduler.start()
 
