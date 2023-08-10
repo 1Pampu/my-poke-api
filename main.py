@@ -4,8 +4,9 @@ from fastapi import FastAPI,HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 import random
-import asyncio
-from datetime import datetime, timedelta,timezone
+from apscheduler.schedulers.background import BackgroundScheduler
+from apscheduler.triggers.cron import CronTrigger
+import pytz
 
 # Create a new instance of the FastAPI application
 app = FastAPI()
@@ -28,37 +29,36 @@ with open(dbRoute,'r') as file:
 pokemonList = list(contentJson)
 
 # Variable that contains the pokemon of the "day" and the time to the next change
-lastPkmon = None
-pkmonday = None
-nextChange = None
+lastPkmon = random.choice(pokemonList)
+lastPkmon = lastPkmon["name"]
+pkmonday = random.choice(pokemonList)
 
-# Function that changes the pokemon of the day every X time
-async def periodicChange():
-    global pkmonday,nextChange,lastPkmon   # Specify that we are reffering to the global variable
-    while True:
-        if pkmonday == None:
-            lastPkmon = random.choice(pokemonList)
-            lastPkmon = lastPkmon["name"]
-        else: lastPkmon = pkmonday["name"]
-        pkmonday = random.choice(pokemonList)
-        nextChange = datetime.now() + timedelta(minutes=15)
-        await asyncio.sleep(900)   # 900 = 15min
+# Function that changes the pokemon of the day
+def changePokemonDay():
+    global pkmonday,lastPkmon
+    # Update last pokemon
+    lastPkmon = pkmonday["name"]
+    # Update pokemonday
+    pkmonday = random.choice(pokemonList)
 
-# Start async function at startup
-@app.on_event("startup")
-async def startTasks():
-    asyncio.create_task(periodicChange())
+# Create the automatization of the change of pokemon
+scheduler = BackgroundScheduler(timezone=pytz.utc)
+trigger = CronTrigger(minute="0,30")  # Execute when minutes are 0 and 30
+scheduler.add_job(changePokemonDay, trigger=trigger)
+scheduler.start()
+
+# Returns when it's the next change
+@app.get("/time")
+async def nextRun():
+    next_run = scheduler.get_jobs()[0].next_run_time
+    nextChange = next_run.astimezone(pytz.utc).replace(microsecond=0).isoformat() + 'Z'
+    return {"nextPokemon": nextChange}
 
 # Returns the last pokemon chosen
 @app.get("/lastGuess")
 async def lastGuess():
     return {"pokemon":lastPkmon}
 
-# Function to get the time for the next Pokémon change
-@app.get("/time")
-async def timeToNextPokemon():
-    next_change_utc = nextChange.astimezone(timezone.utc).replace(microsecond=0).isoformat() + "Z"
-    return {"nextPokemon": next_change_utc}
 
 # Returns all the pokemon list
 @app.get("/")
