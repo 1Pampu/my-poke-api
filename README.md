@@ -4,6 +4,7 @@ This is my first API, built using FastAPI and incorporating data analysis with P
 ## Documentation
 The api changes the "pokemon of the day" every 15 minutes.
 You can find the complete documentation in detail at `/docs` or `/redoc`.
+Live documentation: [/docs](https://my-poke-api.onrender.com/docs) and [/redoc](https://my-poke-api.onrender.com/redoc)
 
 | Request                   | Type | Description                                              |
 |---------------------------|------|----------------------------------------------------------|

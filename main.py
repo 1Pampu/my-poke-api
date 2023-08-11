@@ -118,9 +118,11 @@ async def validateAnswer(guessNumber: PokedxNumber):
         else: pdex = "higher"
 
         if guessPokemon["type1"].lower() == pkmonday["type1"].lower(): primaryType = True
+        elif guessPokemon["type1"].lower() == pkmonday["type2"].lower(): primaryType = "partial"
         else: primaryType = False
 
         if guessPokemon["type2"].lower() == pkmonday["type2"].lower(): secondaryType = True
+        elif guessPokemon["type2"].lower() == pkmonday["type1"].lower(): secondaryType = "partial"
         else: secondaryType = False
 
         if guessPokemon["is_legendary"] == pkmonday["is_legendary"]: legendary = True
